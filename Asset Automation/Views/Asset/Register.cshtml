@@ -1,0 +1,161 @@
+﻿
+
+
+@model Asset_Automation.Models.register
+@{
+    ViewBag.Title = "Register";
+}
+
+
+
+<style>
+     .admindash {
+
+     display:none;
+
+    }
+    .utilites {
+    
+    display:none;
+    }
+    .log {
+    display:none;
+    
+    }
+    #tbladmi {
+    display:none;
+    }
+
+</style>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Successfully Booked</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@ViewBag.suucesss
+
+<h4 class="text-center text-danger"><b>@ViewBag.sorry</b></h4>
+<h2 class="text-lg-left text-primary table-hover "><b>REGISTER</b></h2><span></span>
+<div class="breadcrumb">
+
+  
+
+
+    <div class="breadcrumb">
+ 
+       
+        @using (Html.BeginForm("Register", "Asset", FormMethod.Post))
+        {
+           
+            <table class="table  table-hover ">
+                @Html.AntiForgeryToken()
+
+
+          
+
+                <tr>
+                    <td><b>First Name</b></td>
+                    <td>@Html.TextBoxFor(x => x.name, new { @class = "form-control" })</td>
+                    <td>@Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })</td>
+                    <td><b>Last Name</b></td>
+                    <td>@Html.TextBoxFor(x => x.lastname, new { @class = "form-control" })</td>
+                    <td>@Html.ValidationMessageFor(model => model.lastname, "", new { @class = "text-danger" })</td>
+                   
+                </tr>
+                <tr>
+                    <td><b>Phone</b></td>
+                    <td>@Html.TextBoxFor(x => x.phone, new { @class = "form-control" })</td>
+                    <td>@Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })</td>
+                 
+                </tr>
+                <tr>
+                    <td><b>Department</b></td>
+
+                    <td>@Html.DropDownList("department", new List<SelectListItem> { new SelectListItem { Text = "Xiphias Software Technologies", Value = "Xiphias Software Technologies" }, new SelectListItem { Text = "Xiphias Immigration", Value = "Xiphias Immigration" } }, "select department", new { @class = "form-control" })</td>
+                    <td>@Html.ValidationMessage("department",new { @class = "text-danger"})</td>
+                </tr>
+                <tr>
+                    <td><b>Email</b></td>
+                    <td><input type="email" name="email" required class="form-control"/></td>
+                    <td>@Html.ValidationMessageFor(model => model.email, " ", new { @class = "text-danger" })</td>
+                   
+                </tr>
+                <tr>
+                    <td><b>Pin</b></td>
+                    <td><input type="password" name="pin" required class="form-control" /></td>
+                    <td>@Html.ValidationMessageFor(model => model.pin, "", new { @class = "text-danger" })</td>
+                   
+                </tr>
+                <tr>
+                    <td><b>Confirm Pin</b></td>
+                    <td><input type="password" name="confirmpin" required class="form-control" /></td>
+                    <td>@Html.ValidationMessageFor(model => model.confirmpin, "", new { @class = "text-danger" })</td>
+              
+                </tr>
+                <tr>
+                    <td><input type="submit" value="Register"  class="btn btn-success"  /></td>
+                   
+                </tr>
+              
+               
+
+            </table>
+
+        }
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        function register()
+        {
+            if(@ViewBag.suucesss!=null)
+            {
+                alert("Successfully registered");
+           
+            }
+        
+
+        }
+
+      
+
+
+
+</script>
+    
+    
+    }

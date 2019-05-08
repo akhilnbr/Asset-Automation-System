@@ -1,0 +1,230 @@
+﻿@model PagedList.IPagedList<Asset_Automation.Models.BookModel>
+
+
+@using Asset_Automation.Models
+
+
+@{
+    ViewBag.Title = "Bookings";
+}
+
+@using PagedList.Mvc
+<style>
+    .date {
+        float:right;  
+
+    }
+    .badge-success{
+        color:#ffffff;
+        background-color:#e91e63;
+        
+    }
+
+     .utilites{
+        display:none;
+    }
+      #tbladmi {
+    display:none;
+    }
+    #dwnld {
+    position: relative;
+    left: 626px;
+    bottom: -42px;
+    color: white;
+
+    
+    }
+    .btn-danger {
+        color: #fff;
+    background-color: #466bd8;
+    border-color: #f8f9fc;
+        padding-right: 31px;
+    
+    }
+
+</style>
+
+<h2 class="text-center text-primary">Bookings</h2>
+<div class="date">
+    <button type="button" class="btn btn-primary">
+        Pending Approvals<span class="badge badge-success">@TempData["count"]</span>
+    </button>
+</div>
+
+@TempData["probblem"]
+<div class="breadcrumb">
+
+    <h2 class="text-center text-primary table-hover "><b></b></h2><span></span>
+
+
+
+    @using (Html.BeginForm("Bookings", "Asset", FormMethod.Post))
+    {
+        <table class="table table-hover">
+            <tr>
+                <td>Pick a date</td>
+                <td><input type="text" name = "date" id="datepicker" class="form form-control" required/></td>
+                <td>
+                    <input type="submit" value="check" class="btn btn-danger" />
+                </td>
+              
+                <td><b>Export to Excel</b> <a href="@Url.Action("ExportToExcel",new { date = ViewData["date"]})"><b class="btn btn-danger">Export</b></a></td>
+                <span><i class="fas fa-download" id="dwnld"></i></span>
+                
+            </tr>
+          
+        </table>
+    }
+    
+
+    <div class="breadcrumb">
+
+
+
+        <table class="table  table-hover " id="tblbookings">
+            @Html.AntiForgeryToken()
+
+
+
+
+            <tr>
+                <td>
+                    <b>Employee Name</b>
+                </td>
+                <td>
+                    <b>Department</b>
+                </td>
+                <td>
+                    <b>Asset</b>
+                </td>
+                <td>
+                    <b>Date</b>
+                </td>
+                <td>
+                    <b>InTime</b>
+                </td>
+                <td>
+                    <b>OutTime</b>
+                </td>
+                <td>
+                    <b>Status</b>
+                </td>
+                @ViewBag.bookings
+
+            </tr>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+
+                    <td> @Model[i].name</td>
+                    <td> @Model[i].department</td>
+                    <td> @Model[i].asset</td>
+                    <td>@Model[i].date</td>
+                    <td> @Model[i].intime</td>
+                    <td>@Model[i].outtime</td>
+                    <td> @Model[i].status</td>
+                    <td><a href="@Url.Action("Approve",new { id = Model[i].id})"><b class="btn btn-danger">Approve</b></a></td>
+
+
+
+                </tr>
+
+            }
+
+
+
+
+
+
+        </table>
+        <div>
+            <div class="pagination pagination-lg"margin-left: 400px">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                of @Model.PageCount
+            </div>
+            <ul class="pagination pagination-lg">
+                @Html.PagedListPager(Model, page => Url.Action("Bookings", new { page }))
+                
+            </ul>
+        </div>
+
+
+
+        
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+
+@section scripts
+{
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+
+        $(function () {
+            $("#datepicker").datepicker({
+
+
+                showButtonPanel: true,
+                dateFormat: 'yy-mm-dd',
+
+
+            });
+
+
+
+
+        });
+
+
+    </script>
+
+@*<script>
+
+        var $j = jQuery.noConflict();
+
+        $j(document).ready(function () {
+            debugger
+
+            $("#datepicker").change(function () {
+                $.get("/Asset/Getetails", { date: $("#datepicker").val() }, function (data) {
+                    $("#tblbookings").empty();
+                    $.each(data, function (index, row) {
+
+
+                        $("#tblbookings").append($('<tr>').attr('td', data[index].name).text(data[index].name));
+                        $("#tblbookings").append($('<tr></tr>').attr('td', data[index].department).text(data[index].department));
+                        $("#tblbookings").append($('<tr></tr>').attr('td', data[index].asset).text(data[index].asset));
+                        $("#tblbookings").append($('<tr></tr>').attr('td', data[index].date).text(data[index].date));
+                        $("#tblbookings").append($('<tr></tr>').attr('td', data[index].intime).val(data[index].intime));
+                        $("#tblbookings").append($('<tr></tr>').attr('td', data[index].outtime).text(data[index].outtime));
+
+
+
+
+
+                    });
+                    $("tblbookings").append("Sorry no field are found");
+                });
+            })
+        });
+</script>*@
+
+
+}
+
+

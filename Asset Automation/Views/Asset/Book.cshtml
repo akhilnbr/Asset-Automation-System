@@ -1,0 +1,485 @@
+﻿
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .close {
+        color: #000;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+</style>
+
+@model Asset_Automation.ViewModel.BookinView
+
+<style>
+    .clockpicker-popover .popover-content {
+        background-color: rgba(156, 35, 157, 0.54);
+    }
+
+
+    .admindash {
+        display: none;
+    }
+
+    .log {
+        display: none;
+    }
+    .modal-backdrop {
+    display:none;
+    }
+</style>
+
+
+
+@{
+    var message = ViewBag.SuccessMsg;
+    var alert = ViewBag.alert;
+}
+
+
+
+
+
+
+
+
+@{
+    ViewBag.Title = "Book";
+}
+
+
+@*<div data-alerts="alerts" class="alert alert-primary" id="al1">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Primary!</strong>
+    </div>
+    <div class="alert alert-primary" id="demo">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Primary!</strong>
+    </div>*@
+
+
+<div>
+
+    @if (ViewData.ModelState.IsValid)
+    {
+        foreach (var item in Model.book)
+        {
+
+            <b>Sorry assets are booked for the date!!Please select another date</b><br />
+
+            <strong>Date</strong>@item.date
+            <strong>In Time</strong>@item.intime
+            <strong>Out Time</strong>@item.outtime
+
+
+        }
+
+
+
+    }
+
+   
+
+
+
+</div>
+
+ @TempData["statusemail"]
+@TempData["updated pin"]
+
+@using (Html.BeginForm("Forgotpassword", "Asset"))
+{
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Forgot Password? Dont worry</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" name="email" placeholder="enter registered email" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                   <input type="submit" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
+
+@ViewBag.message
+
+@TempData["Sorry"]
+@TempData["avaiable"] <b>@ViewBag.notauser</b>
+<div class="breadcrumb">
+
+    <h2 class="text-center text-primary table-hover "><b>Confirm Your Booking Details</b></h2><span></span>
+
+
+    <div class="breadcrumb">
+
+        @using (Html.BeginForm("Book", "Asset", FormMethod.Post))
+            {
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <b>Sign In To Confirm Booking</b>
+                    <table class="table table-hover text text-primary">
+                        <tr>
+                            <td>
+                                Phone/Email
+                            </td>
+                            <td>
+                                <input type="text" name="check" class="form-control" placeholder="enter your phone or email" required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                PIN
+                            </td>
+                            <td>
+                                <input type="password" name="pin" class="form-control" placeholder="enter your pin " required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="submit" name="Login" class="btn btn-success" onclick="return confirm('Are you sure you want to Confirm Booking');" />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="removeconfirm">
+                                   Forgot Password?
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+
+            <table class="table  table-hover ">
+                @Html.AntiForgeryToken()
+                <tr>
+                    <td>
+                        <b>Department</b>
+                    </td>
+
+                    
+
+                    <td>
+                       <input type="text" name="department" value="@Session["dept"]" class="form-control" readonly />
+                     </td>
+                        @*@Html.DropDownList("department", new List<SelectListItem> { new SelectListItem { Text = "Xiphias Software Technologies", Value = "Xiphias Software Technologies" }, new SelectListItem { Text = "Xiphias Immigration", Value = "Xiphias Immigration" } }, "select department", new { @value = Session["dept"] })<SelectListItem>*@
+                    
+
+                    <td> @Html.ValidationMessage("department") </td>
+
+
+                <tr>
+                    <td>
+                        <b> Asset </b>
+                    </td>
+                    <td>
+          
+                        
+                        <input type="text" name="asset" value="@Session["asset"]" class="form-control" readonly />
+                        
+                       
+                    </td>
+                    <td> @Html.ValidationMessageFor(x => x.asset) </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b> Date </b>
+                    </td>
+                    <td>
+                        <input type="date" name="date" , new class="form-control" value="@Session["date"]" readonly/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <b>InTime</b>
+                    </td>
+                    <td>
+                        <input name="intime" type="text" ,new class="form-control"  value="@Session["itime"]"  readonly/>
+                    </td>
+                    <td>
+                        <b>OutTime</b>
+                    </td>
+                    <td>
+                        <input  name="outtime" type="text" ,new class="form-control" value="@Session["otime"]"  readonly />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td><b>Members</b></td>
+
+                    <td><input type="text" name="members" value="@Session["members"]" class="form-control" readonly /></td>
+              
+                </tr>
+
+                <tr>
+                    <td>
+
+                        <input type="button" value="Confirm Bookings" ,new class="btn btn-danger" id="myBtnn" name="Alert" onclick="return format();" />
+                    </td>
+                </tr>
+               
+
+
+
+
+
+
+
+
+
+            </table>
+
+        }
+
+
+
+        @ViewBag.Status
+
+
+
+
+
+    </div>
+
+
+
+</div>`
+
+
+
+
+
+
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-clockpicker.min.css" rel="stylesheet" />
+@section scripts
+{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+
+
+    <script src="~/Scripts/jquery-clockpicker.min.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            $("#timepicker").clockpicker({
+                placement: 'top',
+                align: 'left',
+                donetext: 'Done'
+            });
+        });
+        $(function () {
+            $("#timepicker1").clockpicker({
+                placement: 'top',
+                align: 'left',
+                donetext: 'Done'
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(function () {
+            $("#datepickers").datepicker(
+                {
+                    showButtonPanel: true,
+                    dateFormat: 'yy-mm-dd'
+
+                });
+        });
+
+    </script>
+
+    <script>
+        $("a[data-form-method='post']").click(function (event) {
+            event.preventDefault();
+            var element = $(this);
+            var action = element.attr("href");
+            element.closest("form").each(function () {
+                var form = $(this);
+                form.attr("action", action);
+                form.submit();
+            });
+        });
+
+    </script>
+
+    <script type="text/javascript">
+        var modal = document.getElementById('myModal');
+
+
+        var btn = document.getElementById("myBtnn");
+
+
+        var span = document.getElementsByClassName("close")[0];
+
+
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <script>
+        function format() {
+            var picker1 = document.getElementById('timepicker').value;
+            var picker2 = document.getElementById('timepicker1').value;
+            re = /^\d{1,2}:\d{2}([ap]m)?$/;
+            if (!picker1.match(re)) {
+
+                alert("select a valid time");
+
+            }
+            if (!picker2.match(re)) {
+
+                alert("select a valid time");
+
+            }
+            compare();
+
+        }
+
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnnew").click(function (e) {
+                if ($("#Month_id").val() == null || $("#Month_id").val() == "") {
+                    $("[data-valmsg-for='Month_id']").text("Required");
+                    e.preventDefault();
+                } else {
+                    $("[data-valmsg-for='Month_id']").text("");
+                    e.preventDefault.remove();
+                }
+            });
+        });
+    </script>
+
+    <script>
+
+        function compare() {
+            var picker1 = document.getElementById('timepicker').value;
+            var picker2 = document.getElementById('timepicker1').value;
+            var starttime = new Date().setHours(GetHours(picker1), GetMinutes(picker1), 0);
+            var endtime = new Date().setHours(GetHours(picker2), GetMinutes(picker2), 0);
+            if (starttime > endtime) {
+                alert("start time should be less than end time");
+                return false;
+
+
+            }
+
+        }
+
+        function GetHours(d) {
+            var h = parseInt(d.split(':')[0]);
+
+            return h;
+        }
+        function GetMinutes(d) {
+            return parseInt(d.split(':')[1].split(' ')[0]);
+        }
+
+    </script>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+
+    <script>
+
+        var $j = jQuery.noConflict();
+
+        $j(document).ready(function () {
+
+            $("#asset").change(function () {
+                $.get("/Asset/Getmembers", { asset: $("#asset").val() }, function (data) {
+                    $("#members").empty();
+                    $.each(data, function (index, row) {
+
+
+                        $("#members").append($('<option></option>').attr('value', data[index].capacity).text(data[index].capacity));
+
+
+
+
+                    });
+                });
+            })
+        });
+    </script>
+    <script>
+        $("#removeconfirm").click(function () {
+
+            $('#myModal').hide();
+
+        });
+
+        
+    </script>
+
+
+
+
+
+}
+
+
+
+

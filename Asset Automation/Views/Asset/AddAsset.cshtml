@@ -1,0 +1,145 @@
+﻿
+@model List<Asset_Automation.Models.Addasset>
+@{
+    ViewBag.Title = "Asset";
+}
+
+
+<style>
+    .utilites{
+        display:none;
+    }
+     #tbladmi {
+    display:none;
+    }
+
+     #errmsg
+  {
+  color: red;
+  }
+
+</style>
+
+
+<h2>Welcome Admin</h2>
+<div class="breadcrumb">
+
+    <h2 class="text-center text-primary table-hover "><b></b></h2><span></span>
+
+
+    <div class="breadcrumb">
+
+        @using (Html.BeginForm("AddAsset", "Asset", FormMethod.Post))
+        {
+            <table class="table  table-hover ">
+                @Html.AntiForgeryToken()
+
+
+
+
+                <tr>
+                    <td>
+                        Asset Name
+
+                    </td>
+                    <td>
+                        State
+                    </td>
+
+                </tr>
+
+                @for(int i=0;i<Model.Count;i++)
+                {
+                    <tr> 
+
+                        <td>@Model[i].asset</td>
+                        <td>
+                     
+
+                         @Html.LabelForModel(Model[i].state)      
+                        </td>
+
+                        
+                          <td>
+                              
+                                  <span><a href="@Url.Action("Active",new { id = Model[i].id } )"><b class="btn btn-success">Activate</b></a></span>
+                                  <span><a href="@Url.Action("InActive",new { id = Model[i].id } )"><b class="btn btn-danger">Deactivate</b></a></span>
+                                 <span><a href="@Url.Action("DeleteAsset",new { id = Model[i].id })", onclick="return confirm('Are you sure you want to delete @Model[i].asset');"><b class="btn btn-danger">Remove</b></a></span>
+                                    
+                               
+
+                          </td>
+                     
+
+                    </tr>
+                     
+                }
+                @using (Html.BeginForm("AddAsset", "Asset", FormMethod.Post))
+                {
+                    
+                    <tr>
+                        <td>
+                          <input type="text" name="asset",new class="form-control" placeholder="Enter the asset" required /><br><i class="alert alert-danger">@ViewBag.message</i>
+                        </td>
+                        <td>@Html.ValidationMessage("asset","")</td>
+                        <td>
+
+                           <input type="text" name="capacity" ,new class="form-control" placeholder="Enter the capacity" required id="assets" />
+                            
+                        </td>
+                       
+                        <span id="errmsg"></span>
+                       
+                        <td>
+                            <input type="submit" value="Add asset" class="btn btn-success"   />
+                        </td>
+
+                    </tr>
+
+                }
+               
+
+            </table>
+
+        }
+
+       
+
+
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+@section scripts
+{
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+       
+            $(document).ready(function () {
+               
+                $("#assets").keypress(function (e) {
+                  
+                    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                       
+                        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                        return false;
+                    }
+                });
+            });
+        
+
+    </script>
+
+
+
+
+    
+    }

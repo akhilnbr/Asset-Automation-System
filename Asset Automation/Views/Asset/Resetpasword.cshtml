@@ -1,0 +1,91 @@
+﻿
+
+@model Asset_Automation.Views.ViewModel.reset
+
+@{
+    ViewBag.Title = "Resetpasword";
+}
+
+<h2>Reset PIN</h2>
+
+<style>
+     .admindash {
+        display: none;
+    }
+      .log {
+        display: none;
+    }
+
+</style>
+
+
+<div class="breadcrumb">
+
+    <h2 class="text-center text-primary table-hover ">
+    </h2><span></span>
+
+
+    <div class="breadcrumb">
+
+        @using (Html.BeginForm("Resetpasword", "Asset", FormMethod.Post))
+        {
+            <table class="table  table-hover ">
+                @Html.AntiForgeryToken()
+
+
+                <tr>
+
+
+
+                    <td>
+                       New PIN
+
+                    </td>
+
+
+
+
+
+                    <td>
+                        @Html.EditorFor(x=>x.pin, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>
+                        Confirm PIN
+                    </td>
+                    <td>
+                        @Html.EditorFor(x => x.confirmpin, new { htmlAttributes = new { @class = "form-control"  }})
+                    </td>
+                   
+                </tr>
+
+            </table>
+            <div>
+                <input type="submit" value="Reset PIN"  class="btn btn-success"/>
+            </div>
+
+        }
+
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
