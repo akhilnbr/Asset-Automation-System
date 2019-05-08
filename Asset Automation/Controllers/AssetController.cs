@@ -143,9 +143,9 @@ namespace Asset_Automation.Controllers
             {
 
 
-                var sendmail = new MailAddress("mcakhil@gmail.com", "Akhil");
+                var sendmail = new MailAddress("enter your valid email address", "Akhil");
                 var receiver = new MailAddress(item.email, "Buddy");
-                var password = "googlegmailpassword!!11";
+                var password = "";//enter your email password
                 var subject = "Confirmation Mail";
                 var body = "This is to confirm that the asset" + item.asset + "is APPROVED for the date" + item.date + "from" + item.intime + "to" + item.outtime;
 
@@ -312,9 +312,9 @@ namespace Asset_Automation.Controllers
                         {
 
 
-                            var sendmail = new MailAddress("mcakhil@gmail.com", "Akhil");
+                            var sendmail = new MailAddress("enter your valid email address", "Akhil");
                             var receiver = new MailAddress(Email, "Buddy");
-                            var password = "googlegmailpassword!!11";
+                            var password = "";//enter your email password
                             var subject = "Request for Asset!!";
                             var body = "This is regarding the request by " + model.name + " for the " + model.asset + "on " + date + "from" + itime + "to" + otime;
 
@@ -595,9 +595,9 @@ namespace Asset_Automation.Controllers
                 {
 
 
-                    var sendmail = new MailAddress("mcakhil@gmail.com", "Akhil");
+                    var sendmail = new MailAddress("enter your email address", "Akhil");
                     var receiver = new MailAddress(email, "Buddy");
-                    var password = "googlegmailpassword!!11";
+                    var password = "";//enter your email password
                     var subject = "Reset Pin";
                     var body = "Please follow the link  to reset the PIN \"http://localhost:54068/Asset/Resetpasword\" ";
 
